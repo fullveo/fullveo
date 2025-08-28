@@ -419,17 +419,6 @@
             border-radius: 5px;
             font-size: 12px;
         }
-        
-        .proxy-status {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -508,20 +497,12 @@
         <p>🔼🔽 Navegar | ⏎ Seleccionar | 🔄 Volver</p>
     </div>
 
-    <div class="proxy-status" id="proxy-status">
-        Usando proxy para conexión
-    </div>
-
     <script>
-        // Configuración del servidor y proxy
+        // Configuración del servidor
         const SERVER_URL = "https://pro.boxdigital.org:2087";
-        // Servicio proxy para evitar problemas de CORS
-        const PROXY_URL = "https://api.allorigins.win/raw?url=";
-        
         let currentPage = 1;
         const itemsPerPage = 12;
         let totalPages = 1;
-        let hls = null;
         
         document.addEventListener('DOMContentLoaded', function() {
             // Elementos DOM
@@ -547,7 +528,6 @@
             const toggleFavoriteBtn = document.getElementById('toggle-favorite-btn');
             const paginationContainer = document.getElementById('pagination');
             const playerMessage = document.getElementById('player-message');
-            const proxyStatus = document.getElementById('proxy-status');
             
             // Variables de estado
             let currentUser = null;
@@ -559,7 +539,7 @@
             let filteredChannels = [];
             let currentPlayingChannel = null;
             let favorites = JSON.parse(localStorage.getItem('favorites')) || {};
-            let useProxy = true; // Usar proxy por defecto
+            let hls = null;
             
             // Event listeners
             loginBtn.addEventListener('click', handleLogin);
@@ -634,15 +614,7 @@
                     }
                 } catch (error) {
                     console.error('Error en login:', error);
-                    // Intentar sin proxy si falla con proxy
-                    if (useProxy) {
-                        useProxy = false;
-                        proxyStatus.style.display = 'none';
-                        showMessage('Reintentando conexión directa...', 'error');
-                        setTimeout(handleLogin, 1000);
-                    } else {
-                        showMessage('Error al conectar con el servidor. Intenta nuevamente.', 'error');
-                    }
+                    showMessage('Error al conectar con el servidor. Intenta nuevamente.', 'error');
                 } finally {
                     loginBtn.innerHTML = 'Conectar';
                     loginBtn.disabled = false;
@@ -651,15 +623,7 @@
             
             // Función para autenticar usuario con el servidor Xtream Codes
             async function authenticateUser(username, password) {
-                let url;
-                
-                if (useProxy) {
-                    url = `${PROXY_URL}${encodeURIComponent(SERVER_URL)}/player_api.php?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
-                    proxyStatus.style.display = 'block';
-                } else {
-                    url = `${SERVER_URL}/player_api.php?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
-                    proxyStatus.style.display = 'none';
-                }
+                const url = `${SERVER_URL}/player_api.php?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
                 
                 const response = await fetch(url);
                 if (!response.ok) {
@@ -672,13 +636,7 @@
             // Función para cargar categorías desde el servidor
             async function loadCategories() {
                 try {
-                    let url;
-                    
-                    if (useProxy) {
-                        url = `${PROXY_URL}${encodeURIComponent(SERVER_URL)}/player_api.php?username=${encodeURIComponent(currentUser.username)}&password=${encodeURIComponent(currentUser.password)}&action=get_live_categories`;
-                    } else {
-                        url = `${SERVER_URL}/player_api.php?username=${encodeURIComponent(currentUser.username)}&password=${encodeURIComponent(currentUser.password)}&action=get_live_categories`;
-                    }
+                    const url = `${SERVER_URL}/player_api.php?username=${encodeURIComponent(currentUser.username)}&password=${encodeURIComponent(currentUser.password)}&action=get_live_categories`;
                     
                     const response = await fetch(url);
                     if (!response.ok) {
@@ -753,13 +711,7 @@
                     loadingElement.style.display = 'block';
                     channelsContainer.innerHTML = '';
                     
-                    let url;
-                    
-                    if (useProxy) {
-                        url = `${PROXY_URL}${encodeURIComponent(SERVER_URL)}/player_api.php?username=${encodeURIComponent(currentUser.username)}&password=${encodeURIComponent(currentUser.password)}&action=get_live_streams`;
-                    } else {
-                        url = `${SERVER_URL}/player_api.php?username=${encodeURIComponent(currentUser.username)}&password=${encodeURIComponent(currentUser.password)}&action=get_live_streams`;
-                    }
+                    const url = `${SERVER_URL}/player_api.php?username=${encodeURIComponent(currentUser.username)}&password=${encodeURIComponent(currentUser.password)}&action=get_live_streams`;
                     
                     const response = await fetch(url);
                     if (!response.ok) {
@@ -831,7 +783,7 @@
                     channelElement.innerHTML = `
                         <div class="channel-img">
                             ${channel.stream_icon ? 
-                                `<img src="${useProxy ? PROXY_URL + encodeURIComponent(channel.stream_icon) : channel.stream_icon}" alt="${channel.name}" onerror="this.src='https://via.placeholder.com/200x120/1e3a5f/ffffff?text=Sin+Imagen'">` : 
+                                `<img src="${channel.stream_icon}" alt="${channel.name}" onerror="this.src='https://via.placeholder.com/200x120/1e3a5f/ffffff?text=Sin+Imagen'">` : 
                                 `<div style="display:flex;align-items:center;justify-content:center;height:100%;">${channel.name}</div>`
                             }
                         </div>
@@ -930,13 +882,7 @@
                     '<i class="far fa-star"></i> Añadir a Favoritos';
                 
                 // Generar URL de stream (formato Xtream Codes)
-                let streamUrl;
-                
-                if (useProxy) {
-                    streamUrl = `${PROXY_URL}${encodeURIComponent(SERVER_URL)}/live/${currentUser.username}/${currentUser.password}/${channel.stream_id}.m3u8`;
-                } else {
-                    streamUrl = `${SERVER_URL}/live/${currentUser.username}/${currentUser.password}/${channel.stream_id}.m3u8`;
-                }
+                const streamUrl = `${SERVER_URL}/live/${currentUser.username}/${currentUser.password}/${channel.stream_id}.m3u8`;
                 
                 // Detener reproducción anterior
                 if (hls) {
