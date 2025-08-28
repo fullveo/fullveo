@@ -137,23 +137,25 @@
         .categories {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
             margin-bottom: 20px;
+            justify-content: center;
         }
         
         .category {
             background: linear-gradient(to right, var(--celeste-oscuro), var(--celeste));
-            padding: 15px;
+            padding: 12px 15px;
             border-radius: 8px;
-            min-width: 150px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            min-width: 120px;
+            font-size: 14px;
         }
         
         .category:hover, .category.focused {
             background: linear-gradient(to right, var(--celeste), var(--verde-claro));
-            transform: translateY(-5px);
+            transform: translateY(-2px);
         }
         
         .search-container {
@@ -183,8 +185,8 @@
         
         .channels-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
             margin-bottom: 30px;
         }
         
@@ -198,19 +200,19 @@
         }
         
         .channel:hover, .channel.focused {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px var(--verde-claro);
+            transform: scale(1.03);
+            box-shadow: 0 0 10px var(--verde-claro);
         }
         
         .channel-img {
             width: 100%;
-            height: 120px;
+            height: 100px;
             background-color: #2a4d7a;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 16px;
+            font-size: 14px;
         }
         
         .channel-img img {
@@ -220,12 +222,13 @@
         }
         
         .channel-name {
-            padding: 10px;
+            padding: 8px;
             text-align: center;
             background-color: rgba(0, 0, 0, 0.5);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            font-size: 14px;
         }
         
         .favorite-btn {
@@ -235,13 +238,14 @@
             background: rgba(0, 0, 0, 0.5);
             border: none;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             color: white;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 12px;
         }
         
         .favorite-btn.active {
@@ -273,20 +277,23 @@
             top: 20px;
             right: 20px;
             background: linear-gradient(to right, var(--verde-oscuro), var(--verde-claro));
-            padding: 10px 15px;
+            padding: 8px 12px;
             border-radius: 5px;
             display: none;
+            font-size: 14px;
         }
         
         .logout-btn {
             background: linear-gradient(to right, #d32f2f, #f44336);
-            margin-top: 10px;
+            margin-top: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
         }
         
         .timer {
             text-align: center;
             margin: 10px 0;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--verde-muy-claro);
         }
         
@@ -327,6 +334,7 @@
             align-items: center;
             gap: 10px;
             margin-bottom: 20px;
+            justify-content: center;
         }
         
         .switch {
@@ -393,6 +401,35 @@
         .page-btn.active {
             background: var(--verde-claro);
         }
+        
+        .player-message {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2rem;
+            color: var(--verde-muy-claro);
+        }
+        
+        /* Estilos para navegación con teclado */
+        .key-navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        
+        .proxy-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -412,13 +449,13 @@
             <div class="message error" id="login-message"></div>
             <div class="form-group">
                 <label for="username">Usuario</label>
-                <input type="text" id="username" placeholder="Ingresa tu usuario" class="focused">
+                <input type="text" id="username" placeholder="Ingresa tu usuario">
             </div>
             <div class="form-group">
                 <label for="password">Contraseña</label>
                 <input type="password" id="password" placeholder="Ingresa tu contraseña">
             </div>
-            <button id="login-btn" class="focused">Conectar</button>
+            <button id="login-btn">Conectar</button>
             <div class="demo-info">
                 <p>Demo de 2 horas. Se desconectará automáticamente.</p>
             </div>
@@ -457,6 +494,7 @@
             </div>
             
             <div class="player-container" id="player-container">
+                <div id="player-message" class="player-message"></div>
                 <video id="video-player" controls></video>
                 <div class="player-controls">
                     <button id="back-btn">Volver a la lista</button>
@@ -466,12 +504,24 @@
         </div>
     </div>
 
+    <div class="key-navigation">
+        <p>🔼🔽 Navegar | ⏎ Seleccionar | 🔄 Volver</p>
+    </div>
+
+    <div class="proxy-status" id="proxy-status">
+        Usando proxy para conexión
+    </div>
+
     <script>
-        // Configuración del servidor
+        // Configuración del servidor y proxy
         const SERVER_URL = "https://pro.boxdigital.org:2087";
+        // Servicio proxy para evitar problemas de CORS
+        const PROXY_URL = "https://api.allorigins.win/raw?url=";
+        
         let currentPage = 1;
         const itemsPerPage = 12;
         let totalPages = 1;
+        let hls = null;
         
         document.addEventListener('DOMContentLoaded', function() {
             // Elementos DOM
@@ -496,25 +546,26 @@
             const favoritesToggle = document.getElementById('favorites-toggle');
             const toggleFavoriteBtn = document.getElementById('toggle-favorite-btn');
             const paginationContainer = document.getElementById('pagination');
+            const playerMessage = document.getElementById('player-message');
+            const proxyStatus = document.getElementById('proxy-status');
             
             // Variables de estado
             let currentUser = null;
             let demoInterval = null;
             let demoTimeLeft = 2 * 60 * 60; // 2 horas en segundos
-            let currentFocusedElement = usernameInput;
             let currentCategory = 'all';
             let allChannels = [];
             let allCategories = [];
             let filteredChannels = [];
             let currentPlayingChannel = null;
             let favorites = JSON.parse(localStorage.getItem('favorites')) || {};
-            let navigationStack = [];
+            let useProxy = true; // Usar proxy por defecto
             
             // Event listeners
             loginBtn.addEventListener('click', handleLogin);
             logoutBtn.addEventListener('click', handleLogout);
             backBtn.addEventListener('click', hidePlayer);
-            searchInput.addEventListener('input', handleSearch);
+            searchInput.addEventListener('input', debounce(handleSearch, 300));
             searchClear.addEventListener('click', clearSearch);
             favoritesToggle.addEventListener('change', toggleFavoritesView);
             toggleFavoriteBtn.addEventListener('click', toggleCurrentFavorite);
@@ -528,8 +579,12 @@
                 if (e.key === 'Enter') handleLogin();
             });
             
-            // Navegación con teclado
-            document.addEventListener('keydown', handleKeyNavigation);
+            // Navegación con teclado para TV
+            document.addEventListener('keydown', function(e) {
+                if (mainContainer.style.display === 'block') {
+                    handleTVNavigation(e);
+                }
+            });
             
             // Verificar si ya hay una sesión activa
             checkExistingSession();
@@ -556,7 +611,7 @@
                             username: username,
                             password: password,
                             authData: authData,
-                            isDemo: authData.user_info.status === "Demo" // Ajustar según la respuesta real
+                            isDemo: authData.user_info.status === "Active" ? false : true
                         };
                         
                         // Guardar en localStorage
@@ -573,12 +628,21 @@
                         await loadChannels();
                         
                         showMainApp();
+                        showMessage('Conexión exitosa!', 'success');
                     } else {
                         showMessage('Error de autenticación. Verifica tus credenciales.', 'error');
                     }
                 } catch (error) {
                     console.error('Error en login:', error);
-                    showMessage('Error al conectar con el servidor. Intenta nuevamente.', 'error');
+                    // Intentar sin proxy si falla con proxy
+                    if (useProxy) {
+                        useProxy = false;
+                        proxyStatus.style.display = 'none';
+                        showMessage('Reintentando conexión directa...', 'error');
+                        setTimeout(handleLogin, 1000);
+                    } else {
+                        showMessage('Error al conectar con el servidor. Intenta nuevamente.', 'error');
+                    }
                 } finally {
                     loginBtn.innerHTML = 'Conectar';
                     loginBtn.disabled = false;
@@ -587,7 +651,15 @@
             
             // Función para autenticar usuario con el servidor Xtream Codes
             async function authenticateUser(username, password) {
-                const url = `${SERVER_URL}/player_api.php?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+                let url;
+                
+                if (useProxy) {
+                    url = `${PROXY_URL}${encodeURIComponent(SERVER_URL)}/player_api.php?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+                    proxyStatus.style.display = 'block';
+                } else {
+                    url = `${SERVER_URL}/player_api.php?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
+                    proxyStatus.style.display = 'none';
+                }
                 
                 const response = await fetch(url);
                 if (!response.ok) {
@@ -600,7 +672,13 @@
             // Función para cargar categorías desde el servidor
             async function loadCategories() {
                 try {
-                    const url = `${SERVER_URL}/player_api.php?username=${encodeURIComponent(currentUser.username)}&password=${encodeURIComponent(currentUser.password)}&action=get_live_categories`;
+                    let url;
+                    
+                    if (useProxy) {
+                        url = `${PROXY_URL}${encodeURIComponent(SERVER_URL)}/player_api.php?username=${encodeURIComponent(currentUser.username)}&password=${encodeURIComponent(currentUser.password)}&action=get_live_categories`;
+                    } else {
+                        url = `${SERVER_URL}/player_api.php?username=${encodeURIComponent(currentUser.username)}&password=${encodeURIComponent(currentUser.password)}&action=get_live_categories`;
+                    }
                     
                     const response = await fetch(url);
                     if (!response.ok) {
@@ -675,7 +753,13 @@
                     loadingElement.style.display = 'block';
                     channelsContainer.innerHTML = '';
                     
-                    const url = `${SERVER_URL}/player_api.php?username=${encodeURIComponent(currentUser.username)}&password=${encodeURIComponent(currentUser.password)}&action=get_live_streams`;
+                    let url;
+                    
+                    if (useProxy) {
+                        url = `${PROXY_URL}${encodeURIComponent(SERVER_URL)}/player_api.php?username=${encodeURIComponent(currentUser.username)}&password=${encodeURIComponent(currentUser.password)}&action=get_live_streams`;
+                    } else {
+                        url = `${SERVER_URL}/player_api.php?username=${encodeURIComponent(currentUser.username)}&password=${encodeURIComponent(currentUser.password)}&action=get_live_streams`;
+                    }
                     
                     const response = await fetch(url);
                     if (!response.ok) {
@@ -740,13 +824,14 @@
                     const channelElement = document.createElement('div');
                     channelElement.className = 'channel';
                     channelElement.setAttribute('data-id', channel.stream_id);
+                    channelElement.setAttribute('tabindex', '0');
                     
                     const isFavorite = favorites[channel.stream_id] === true;
                     
                     channelElement.innerHTML = `
                         <div class="channel-img">
                             ${channel.stream_icon ? 
-                                `<img src="${channel.stream_icon}" alt="${channel.name}" onerror="this.src='https://via.placeholder.com/200x120/1e3a5f/ffffff?text=Sin+Imagen'">` : 
+                                `<img src="${useProxy ? PROXY_URL + encodeURIComponent(channel.stream_icon) : channel.stream_icon}" alt="${channel.name}" onerror="this.src='https://via.placeholder.com/200x120/1e3a5f/ffffff?text=Sin+Imagen'">` : 
                                 `<div style="display:flex;align-items:center;justify-content:center;height:100%;">${channel.name}</div>`
                             }
                         </div>
@@ -758,6 +843,13 @@
                     
                     channelElement.addEventListener('click', function() {
                         playChannel(channel);
+                    });
+                    
+                    // Permitir selección con Enter
+                    channelElement.addEventListener('keypress', function(e) {
+                        if (e.key === 'Enter') {
+                            playChannel(channel);
+                        }
                     });
                     
                     const favoriteBtn = channelElement.querySelector('.favorite-btn');
@@ -825,6 +917,7 @@
             // Función para reproducir canal
             function playChannel(channel) {
                 currentPlayingChannel = channel;
+                playerMessage.style.display = 'none';
                 
                 // Ocultar lista de canales y mostrar reproductor
                 mainContainer.style.display = 'none';
@@ -837,18 +930,51 @@
                     '<i class="far fa-star"></i> Añadir a Favoritos';
                 
                 // Generar URL de stream (formato Xtream Codes)
-                const streamUrl = `${SERVER_URL}/live/${currentUser.username}/${currentUser.password}/${channel.stream_id}.m3u8`;
+                let streamUrl;
+                
+                if (useProxy) {
+                    streamUrl = `${PROXY_URL}${encodeURIComponent(SERVER_URL)}/live/${currentUser.username}/${currentUser.password}/${channel.stream_id}.m3u8`;
+                } else {
+                    streamUrl = `${SERVER_URL}/live/${currentUser.username}/${currentUser.password}/${channel.stream_id}.m3u8`;
+                }
+                
+                // Detener reproducción anterior
+                if (hls) {
+                    hls.destroy();
+                }
                 
                 // Configurar el reproductor de video
                 if (Hls.isSupported()) {
-                    const hls = new Hls();
+                    hls = new Hls({
+                        debug: false,
+                        enableWorker: true,
+                        lowLatencyMode: true,
+                        backBufferLength: 90
+                    });
                     hls.loadSource(streamUrl);
                     hls.attachMedia(videoPlayer);
                     hls.on(Hls.Events.MANIFEST_PARSED, function() {
                         videoPlayer.play().catch(e => {
                             console.error('Error al reproducir:', e);
-                            showMessage('Error al reproducir el canal. Intenta otro.', 'error');
+                            showPlayerMessage('Error al reproducir el canal. Intenta otro.');
                         });
+                    });
+                    
+                    hls.on(Hls.Events.ERROR, function(event, data) {
+                        console.error('HLS error:', data);
+                        if (data.fatal) {
+                            switch(data.type) {
+                                case Hls.ErrorTypes.NETWORK_ERROR:
+                                    showPlayerMessage('Error de red. Intenta nuevamente.');
+                                    break;
+                                case Hls.ErrorTypes.MEDIA_ERROR:
+                                    showPlayerMessage('Error de medio. El canal podría no estar disponible.');
+                                    break;
+                                default:
+                                    showPlayerMessage('Error desconocido. Intenta otro canal.');
+                                    break;
+                            }
+                        }
                     });
                 } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
                     // Para Safari
@@ -856,12 +982,18 @@
                     videoPlayer.addEventListener('loadedmetadata', function() {
                         videoPlayer.play().catch(e => {
                             console.error('Error al reproducir:', e);
-                            showMessage('Error al reproducir el canal. Intenta otro.', 'error');
+                            showPlayerMessage('Error al reproducir el canal. Intenta otro.');
                         });
                     });
                 } else {
-                    showMessage('Tu navegador no soporta la reproducción de video HLS', 'error');
+                    showPlayerMessage('Tu navegador no soporta la reproducción de video HLS');
                 }
+            }
+            
+            // Función para mostrar mensaje en el reproductor
+            function showPlayerMessage(message) {
+                playerMessage.textContent = message;
+                playerMessage.style.display = 'block';
             }
             
             // Función para ocultar el reproductor
@@ -872,6 +1004,11 @@
                 if (videoPlayer) {
                     videoPlayer.pause();
                     videoPlayer.src = '';
+                }
+                
+                if (hls) {
+                    hls.destroy();
+                    hls = null;
                 }
             }
             
@@ -914,6 +1051,19 @@
                 filterChannels();
             }
             
+            // Función para debounce
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+            
             // Función para limpiar búsqueda
             function clearSearch() {
                 searchInput.value = '';
@@ -926,10 +1076,71 @@
                 filterChannels();
             }
             
-            // Función para manejar navegación por teclado
-            function handleKeyNavigation(e) {
-                // Implementar navegación con teclas para Smart TV
-                // (Esta implementación sería más compleja en una aplicación real)
+            // Función para manejar navegación con teclado (TV)
+            function handleTVNavigation(e) {
+                const focusedElement = document.activeElement;
+                
+                switch(e.key) {
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        navigate('up', focusedElement);
+                        break;
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        navigate('down', focusedElement);
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        navigate('left', focusedElement);
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        navigate('right', focusedElement);
+                        break;
+                    case 'Enter':
+                        e.preventDefault();
+                        if (focusedElement.click) focusedElement.click();
+                        break;
+                    case 'Backspace':
+                    case 'Escape':
+                        e.preventDefault();
+                        if (playerContainer.style.display === 'block') {
+                            hidePlayer();
+                        }
+                        break;
+                }
+            }
+            
+            // Función para navegación por teclado
+            function navigate(direction, focusedElement) {
+                // Implementación básica de navegación
+                // En una aplicación real, esto sería más complejo
+                const focusableElements = Array.from(document.querySelectorAll('button, input, .channel, .category'));
+                const currentIndex = focusableElements.indexOf(focusedElement);
+                
+                if (currentIndex === -1) {
+                    focusableElements[0]?.focus();
+                    return;
+                }
+                
+                let nextIndex = currentIndex;
+                
+                switch(direction) {
+                    case 'up':
+                        nextIndex = Math.max(0, currentIndex - 1);
+                        break;
+                    case 'down':
+                        nextIndex = Math.min(focusableElements.length - 1, currentIndex + 1);
+                        break;
+                    case 'left':
+                        nextIndex = Math.max(0, currentIndex - 1);
+                        break;
+                    case 'right':
+                        nextIndex = Math.min(focusableElements.length - 1, currentIndex + 1);
+                        break;
+                }
+                
+                focusableElements[nextIndex]?.focus();
             }
             
             // Función para mostrar aplicación principal
@@ -940,6 +1151,7 @@
                 userDisplay.textContent = `Usuario: ${currentUser.username}`;
                 
                 if (currentUser.isDemo) {
+                    timerDisplay.style.display = 'block';
                     updateTimerDisplay();
                 } else {
                     timerDisplay.style.display = 'none';
@@ -981,10 +1193,16 @@
                 
                 localStorage.removeItem('currentUser');
                 localStorage.removeItem('demoTimeLeft');
+                localStorage.removeItem('favorites');
                 
                 if (videoPlayer) {
                     videoPlayer.pause();
                     videoPlayer.src = '';
+                }
+                
+                if (hls) {
+                    hls.destroy();
+                    hls = null;
                 }
                 
                 playerContainer.style.display = 'none';
@@ -998,8 +1216,6 @@
                 userInfo.style.display = 'none';
                 usernameInput.value = '';
                 passwordInput.value = '';
-                currentFocusedElement = usernameInput;
-                usernameInput.classList.add('focused');
             }
             
             // Función para mostrar mensajes
