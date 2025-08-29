@@ -269,6 +269,15 @@
             margin-bottom: 15px;
             display: none;
         }
+
+        .debug-info {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 12px;
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -283,7 +292,7 @@
             <div class="message error" id="login-message"></div>
             <div class="form-group">
                 <label for="username">Usuario</label>
-                <input type="text" id="username" placeholder="Ingresa tu usuario">
+                <input type="text" id="username" placeholder="Ingresa tu usuario" value="87RPNG:6CbDD">
             </div>
             <div class="form-group">
                 <label for="password">Contraseña</label>
@@ -293,6 +302,7 @@
             <div class="demo-info">
                 <p>Demo de 2 horas. Se desconectará automáticamente.</p>
             </div>
+            <div class="debug-info" id="debug-info"></div>
         </div>
         
         <div class="main-container" id="main-container">
@@ -358,6 +368,7 @@
         const playerContainer = document.getElementById('player-container');
         const videoPlayer = document.getElementById('video-player');
         const backBtn = document.getElementById('back-btn');
+        const debugInfo = document.getElementById('debug-info');
         
         // Event Listeners
         loginBtn.addEventListener('click', handleLogin);
@@ -378,16 +389,23 @@
             
             loginBtn.disabled = true;
             loginBtn.textContent = 'Conectando...';
+            debugInfo.style.display = 'block';
+            debugInfo.textContent = 'Conectando al servidor...';
             
             try {
-                // Usamos un proxy para evitar problemas de CORS
-                const proxyUrl = 'https://api.allorigins.win/raw?url=';
-                const authUrl = `${proxyUrl}${encodeURIComponent(`${SERVER_URL}/player_api.php?username=${username}&password=${password}`)}`;
+                // Intentar conexión directa primero
+                const authUrl = `${SERVER_URL}/player_api.php?username=${username}&password=${password}`;
+                debugInfo.textContent = `Conectando a: ${authUrl}`;
                 
                 const response = await fetch(authUrl);
-                if (!response.ok) throw new Error('Error de autenticación');
+                debugInfo.textContent += `\nRespuesta del servidor: ${response.status} ${response.statusText}`;
+                
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
                 
                 const authData = await response.json();
+                debugInfo.textContent += `\nDatos recibidos: ${JSON.stringify(authData)}`;
                 
                 if (authData.user_info && authData.user_info.auth === 1) {
                     currentUser = {
@@ -409,12 +427,14 @@
                     await loadChannels();
                     
                     showMainApp();
+                    showMessage('Conexión exitosa!', 'success');
                 } else {
-                    throw new Error('Credenciales incorrectas');
+                    throw new Error('Credenciales incorrectas o servidor no responde correctamente');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                showMessage('Error de conexión. Verifica tus credenciales.', 'error');
+                debugInfo.textContent += `\nError: ${error.message}`;
+                showMessage('Error de conexión. Verifica tus credenciales y conexión a internet.', 'error');
             } finally {
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'Conectar';
@@ -424,16 +444,20 @@
         // Función para cargar categorías
         async function loadCategories() {
             try {
-                const proxyUrl = 'https://api.allorigins.win/raw?url=';
-                const categoriesUrl = `${proxyUrl}${encodeURIComponent(`${SERVER_URL}/player_api.php?username=${currentUser.username}&password=${currentUser.password}&action=get_live_categories`)}`;
+                debugInfo.textContent += '\nCargando categorías...';
+                const categoriesUrl = `${SERVER_URL}/player_api.php?username=${currentUser.username}&password=${currentUser.password}&action=get_live_categories`;
                 
                 const response = await fetch(categoriesUrl);
                 if (!response.ok) throw new Error('Error al cargar categorías');
                 
                 allCategories = await response.json();
+                debugInfo.textContent += `\nCategorías cargadas: ${allCategories.length}`;
                 renderCategories();
             } catch (error) {
                 console.error('Error cargando categorías:', error);
+                debugInfo.textContent += `\nError cargando categorías: ${error.message}`;
+                showMessage('Error al cargar categorías. Intenta nuevamente.', 'error');
+                
                 // Categorías por defecto en caso de error
                 allCategories = [
                     { category_id: '1', category_name: 'Deportes' },
@@ -487,18 +511,20 @@
         async function loadChannels() {
             loadingElement.style.display = 'block';
             channelsContainer.innerHTML = '';
+            debugInfo.textContent += '\nCargando canales...';
             
             try {
-                const proxyUrl = 'https://api.allorigins.win/raw?url=';
-                const streamsUrl = `${proxyUrl}${encodeURIComponent(`${SERVER_URL}/player_api.php?username=${currentUser.username}&password=${currentUser.password}&action=get_live_streams`)}`;
+                const streamsUrl = `${SERVER_URL}/player_api.php?username=${currentUser.username}&password=${currentUser.password}&action=get_live_streams`;
                 
                 const response = await fetch(streamsUrl);
                 if (!response.ok) throw new Error('Error al cargar canales');
                 
                 allChannels = await response.json();
+                debugInfo.textContent += `\nCanales cargados: ${allChannels.length}`;
                 filterChannels();
             } catch (error) {
                 console.error('Error cargando canales:', error);
+                debugInfo.textContent += `\nError cargando canales: ${error.message}`;
                 showMessage('Error al cargar canales. Intenta nuevamente.', 'error');
             } finally {
                 loadingElement.style.display = 'none';
@@ -557,9 +583,11 @@
         function playChannel(channel) {
             mainContainer.style.display = 'none';
             playerContainer.style.display = 'block';
+            debugInfo.textContent += `\nIntentando reproducir: ${channel.name}`;
             
             // Generar URL del stream
             const streamUrl = `${SERVER_URL}/live/${currentUser.username}/${currentUser.password}/${channel.stream_id}.m3u8`;
+            debugInfo.textContent += `\nURL del stream: ${streamUrl}`;
             
             // Detener reproducción anterior
             if (hls) {
@@ -568,17 +596,45 @@
             
             // Configurar HLS.js para reproducción
             if (Hls.isSupported()) {
-                hls = new Hls();
+                hls = new Hls({
+                    debug: true,
+                    enableWorker: false // Desactivar worker para mejor compatibilidad
+                });
+                
                 hls.loadSource(streamUrl);
                 hls.attachMedia(videoPlayer);
+                
                 hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    videoPlayer.play();
+                    videoPlayer.play().catch(e => {
+                        debugInfo.textContent += `\nError al reproducir: ${e.message}`;
+                        alert('Error al reproducir el canal. Intenta otro.');
+                    });
+                });
+                
+                hls.on(Hls.Events.ERROR, (event, data) => {
+                    debugInfo.textContent += `\nError HLS: ${data.type} - ${data.details}`;
+                    if (data.fatal) {
+                        switch(data.type) {
+                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                alert('Error de red. Intenta nuevamente.');
+                                break;
+                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                alert('Error de medio. El canal podría no estar disponible.');
+                                break;
+                            default:
+                                alert('Error desconocido. Intenta otro canal.');
+                                break;
+                        }
+                    }
                 });
             } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
                 // Para Safari
                 videoPlayer.src = streamUrl;
                 videoPlayer.addEventListener('loadedmetadata', () => {
-                    videoPlayer.play();
+                    videoPlayer.play().catch(e => {
+                        debugInfo.textContent += `\nError al reproducir: ${e.message}`;
+                        alert('Error al reproducir el canal. Intenta otro.');
+                    });
                 });
             } else {
                 alert('Tu navegador no soporta la reproducción de video HLS');
@@ -677,6 +733,7 @@
             playerContainer.style.display = 'none';
             mainContainer.style.display = 'none';
             loginContainer.style.display = 'block';
+            debugInfo.style.display = 'none';
             
             usernameInput.value = '';
             passwordInput.value = '';
