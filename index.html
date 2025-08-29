@@ -15,7 +15,6 @@
             --verde-claro: #4caf50;
             --verde-muy-claro: #81c784;
             --negro: #000000;
-            --gris-oscuro: #1a1a1a;
         }
         
         * {
@@ -29,13 +28,12 @@
             background: linear-gradient(135deg, var(--azul-oscuro), var(--negro));
             color: white;
             min-height: 100vh;
-            overflow-x: hidden;
+            padding: 20px;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
         }
         
         header {
@@ -43,8 +41,8 @@
             padding: 20px 0;
             background: linear-gradient(to right, var(--azul-oscuro), var(--celeste-oscuro));
             border-bottom: 2px solid var(--verde-claro);
-            margin-bottom: 30px;
-            position: relative;
+            margin-bottom: 20px;
+            border-radius: 10px;
         }
         
         .logo {
@@ -63,10 +61,10 @@
         .login-container, .main-container {
             background: linear-gradient(to bottom right, var(--celeste-oscuro), var(--azul-oscuro));
             border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            margin: 0 auto 20px;
             max-width: 500px;
-            margin: 0 auto;
         }
         
         .main-container {
@@ -76,12 +74,12 @@
         
         h2 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: var(--verde-claro);
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         label {
@@ -93,17 +91,12 @@
         input[type="text"],
         input[type="password"] {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: none;
             border-radius: 5px;
             background-color: rgba(255, 255, 255, 0.1);
             color: white;
             font-size: 16px;
-        }
-        
-        input[type="text"]:focus,
-        input[type="password"]:focus {
-            outline: 2px solid var(--verde-claro);
         }
         
         button {
@@ -115,93 +108,93 @@
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
-            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
         }
         
-        button:hover, button:focus, button.focused {
+        button:hover {
             background: linear-gradient(to right, var(--verde-claro), var(--verde-muy-claro));
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
-        .demo-info {
-            text-align: center;
-            margin-top: 20px;
-            color: var(--verde-muy-claro);
+        .user-info {
+            background: linear-gradient(to right, var(--verde-oscuro), var(--verde-claro));
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        .categories-container {
-            margin-bottom: 30px;
+        .logout-btn {
+            background: #d32f2f;
+            padding: 8px 15px;
+            width: auto;
         }
         
         .categories {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             justify-content: center;
         }
         
         .category {
-            background: linear-gradient(to right, var(--celeste-oscuro), var(--celeste));
-            padding: 12px 15px;
-            border-radius: 8px;
-            text-align: center;
+            background: var(--celeste-oscuro);
+            padding: 10px 15px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
+            text-align: center;
             min-width: 120px;
-            font-size: 14px;
         }
         
-        .category:hover, .category.focused {
-            background: linear-gradient(to right, var(--celeste), var(--verde-claro));
-            transform: translateY(-2px);
+        .category.active {
+            background: var(--verde-claro);
         }
         
         .search-container {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             gap: 10px;
         }
         
         .search-input {
             flex-grow: 1;
-            padding: 12px;
+            padding: 10px;
             border: none;
             border-radius: 5px;
             background-color: rgba(255, 255, 255, 0.1);
             color: white;
-            font-size: 16px;
         }
         
         .search-clear {
-            background: linear-gradient(to right, #d32f2f, #f44336);
+            background: #d32f2f;
             color: white;
             border: none;
-            padding: 12px;
             border-radius: 5px;
+            padding: 10px;
             cursor: pointer;
         }
         
         .channels-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         
         .channel {
-            background: linear-gradient(to bottom, var(--celeste-oscuro), var(--azul-oscuro));
+            background: var(--celeste-oscuro);
             border-radius: 8px;
             overflow: hidden;
-            transition: all 0.3s ease;
             cursor: pointer;
-            position: relative;
+            transition: transform 0.3s;
         }
         
-        .channel:hover, .channel.focused {
-            transform: scale(1.03);
-            box-shadow: 0 0 10px var(--verde-claro);
+        .channel:hover {
+            transform: scale(1.05);
         }
         
         .channel-img {
@@ -211,8 +204,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 14px;
         }
         
         .channel-img img {
@@ -222,40 +213,17 @@
         }
         
         .channel-name {
-            padding: 8px;
+            padding: 10px;
             text-align: center;
-            background-color: rgba(0, 0, 0, 0.5);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-size: 14px;
-        }
-        
-        .favorite-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(0, 0, 0, 0.5);
-            border: none;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-        
-        .favorite-btn.active {
-            color: gold;
         }
         
         .player-container {
             display: none;
-            margin-top: 30px;
             text-align: center;
+            margin-top: 20px;
         }
         
         #video-player {
@@ -267,41 +235,19 @@
         
         .player-controls {
             margin-top: 15px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
         }
         
-        .user-info {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(to right, var(--verde-oscuro), var(--verde-claro));
-            padding: 8px 12px;
-            border-radius: 5px;
-            display: none;
-            font-size: 14px;
-        }
-        
-        .logout-btn {
-            background: linear-gradient(to right, #d32f2f, #f44336);
-            margin-top: 8px;
-            padding: 8px 12px;
-            font-size: 14px;
-        }
-        
-        .timer {
+        .loading {
             text-align: center;
-            margin: 10px 0;
-            font-size: 1.1rem;
-            color: var(--verde-muy-claro);
+            padding: 20px;
+            font-size: 1.2rem;
         }
         
         .message {
-            text-align: center;
             padding: 10px;
-            margin: 10px 0;
             border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
             display: none;
         }
         
@@ -315,109 +261,13 @@
             color: var(--verde-claro);
         }
         
-        .loading {
-            text-align: center;
-            padding: 20px;
-            font-size: 1.2rem;
-            color: var(--verde-muy-claro);
-        }
-        
-        .nav-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .favorites-only {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            justify-content: center;
-        }
-        
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-        
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--celeste-oscuro);
-            transition: .4s;
-            border-radius: 24px;
-        }
-        
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .slider {
-            background-color: var(--verde-claro);
-        }
-        
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-        
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .page-btn {
-            padding: 8px 15px;
-            background: var(--celeste-oscuro);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        
-        .page-btn.active {
-            background: var(--verde-claro);
-        }
-        
-        .player-message {
-            text-align: center;
-            padding: 20px;
-            font-size: 1.2rem;
-            color: var(--verde-muy-claro);
-        }
-        
-        /* Estilos para navegación con teclado */
-        .key-navigation {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.7);
+        .timer {
+            background: var(--verde-oscuro);
             padding: 10px;
             border-radius: 5px;
-            font-size: 12px;
+            text-align: center;
+            margin-bottom: 15px;
+            display: none;
         }
     </style>
 </head>
@@ -426,11 +276,6 @@
         <header>
             <div class="logo">FullVeo</div>
             <div class="tagline">Entretenimiento sin límites</div>
-            <div class="user-info" id="user-info">
-                <div id="user-display"></div>
-                <div class="timer" id="timer">Tiempo restante: 02:00:00</div>
-                <button class="logout-btn" id="logout-btn">Cerrar Sesión</button>
-            </div>
         </header>
         
         <div class="login-container" id="login-container">
@@ -451,12 +296,17 @@
         </div>
         
         <div class="main-container" id="main-container">
-            <div class="categories-container">
-                <h2>Selecciona una categoría</h2>
-                <div class="categories" id="categories">
-                    <div class="category focused" data-category="all">Todos</div>
-                    <!-- Las categorías se cargarán dinámicamente -->
-                </div>
+            <div class="user-info">
+                <div id="user-display"></div>
+                <button class="logout-btn" id="logout-btn">Cerrar Sesión</button>
+            </div>
+            
+            <div class="timer" id="timer">Tiempo restante: 02:00:00</div>
+            
+            <h2>Selecciona una categoría</h2>
+            <div class="categories" id="categories">
+                <div class="category active" data-category="all">Todos</div>
+                <!-- Las categorías se cargarán aquí -->
             </div>
             
             <div class="search-container">
@@ -464,741 +314,410 @@
                 <button id="search-clear" class="search-clear"><i class="fas fa-times"></i></button>
             </div>
             
-            <div class="favorites-only">
-                <span>Mostrar solo favoritos:</span>
-                <label class="switch">
-                    <input type="checkbox" id="favorites-toggle">
-                    <span class="slider"></span>
-                </label>
-            </div>
-            
             <div class="loading" id="loading">Cargando canales...</div>
             
             <div class="channels-grid" id="channels">
-                <!-- Los canales se cargarán dinámicamente -->
-            </div>
-            
-            <div class="pagination" id="pagination">
-                <!-- La paginación se generará dinámicamente -->
+                <!-- Los canales se cargarán aquí -->
             </div>
             
             <div class="player-container" id="player-container">
-                <div id="player-message" class="player-message"></div>
                 <video id="video-player" controls></video>
                 <div class="player-controls">
                     <button id="back-btn">Volver a la lista</button>
-                    <button id="toggle-favorite-btn">Añadir a Favoritos</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="key-navigation">
-        <p>🔼🔽 Navegar | ⏎ Seleccionar | 🔄 Volver</p>
-    </div>
-
     <script>
-        // Configuración del servidor
+        // Configuración
         const SERVER_URL = "https://pro.boxdigital.org:2087";
-        let currentPage = 1;
-        const itemsPerPage = 12;
-        let totalPages = 1;
+        let currentUser = null;
+        let demoInterval = null;
+        let demoTimeLeft = 2 * 60 * 60;
+        let allChannels = [];
+        let allCategories = [];
+        let currentCategory = 'all';
+        let hls = null;
         
-        document.addEventListener('DOMContentLoaded', function() {
-            // Elementos DOM
-            const loginContainer = document.getElementById('login-container');
-            const mainContainer = document.getElementById('main-container');
-            const userInfo = document.getElementById('user-info');
-            const userDisplay = document.getElementById('user-display');
-            const timerDisplay = document.getElementById('timer');
-            const loginBtn = document.getElementById('login-btn');
-            const logoutBtn = document.getElementById('logout-btn');
-            const usernameInput = document.getElementById('username');
-            const passwordInput = document.getElementById('password');
-            const loginMessage = document.getElementById('login-message');
-            const categoriesContainer = document.getElementById('categories');
-            const channelsContainer = document.getElementById('channels');
-            const playerContainer = document.getElementById('player-container');
-            const videoPlayer = document.getElementById('video-player');
-            const backBtn = document.getElementById('back-btn');
-            const searchInput = document.getElementById('search-input');
-            const searchClear = document.getElementById('search-clear');
-            const loadingElement = document.getElementById('loading');
-            const favoritesToggle = document.getElementById('favorites-toggle');
-            const toggleFavoriteBtn = document.getElementById('toggle-favorite-btn');
-            const paginationContainer = document.getElementById('pagination');
-            const playerMessage = document.getElementById('player-message');
+        // Elementos DOM
+        const loginContainer = document.getElementById('login-container');
+        const mainContainer = document.getElementById('main-container');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginBtn = document.getElementById('login-btn');
+        const loginMessage = document.getElementById('login-message');
+        const userDisplay = document.getElementById('user-display');
+        const logoutBtn = document.getElementById('logout-btn');
+        const timerDisplay = document.getElementById('timer');
+        const categoriesContainer = document.getElementById('categories');
+        const searchInput = document.getElementById('search-input');
+        const searchClear = document.getElementById('search-clear');
+        const loadingElement = document.getElementById('loading');
+        const channelsContainer = document.getElementById('channels');
+        const playerContainer = document.getElementById('player-container');
+        const videoPlayer = document.getElementById('video-player');
+        const backBtn = document.getElementById('back-btn');
+        
+        // Event Listeners
+        loginBtn.addEventListener('click', handleLogin);
+        logoutBtn.addEventListener('click', handleLogout);
+        searchInput.addEventListener('input', handleSearch);
+        searchClear.addEventListener('click', clearSearch);
+        backBtn.addEventListener('click', hidePlayer);
+        
+        // Función para manejar el login
+        async function handleLogin() {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
             
-            // Variables de estado
-            let currentUser = null;
-            let demoInterval = null;
-            let demoTimeLeft = 2 * 60 * 60; // 2 horas en segundos
-            let currentCategory = 'all';
-            let allChannels = [];
-            let allCategories = [];
-            let filteredChannels = [];
-            let currentPlayingChannel = null;
-            let favorites = JSON.parse(localStorage.getItem('favorites')) || {};
-            let hls = null;
-            
-            // Event listeners
-            loginBtn.addEventListener('click', handleLogin);
-            logoutBtn.addEventListener('click', handleLogout);
-            backBtn.addEventListener('click', hidePlayer);
-            searchInput.addEventListener('input', debounce(handleSearch, 300));
-            searchClear.addEventListener('click', clearSearch);
-            favoritesToggle.addEventListener('change', toggleFavoritesView);
-            toggleFavoriteBtn.addEventListener('click', toggleCurrentFavorite);
-            
-            // Permitir login con Enter
-            usernameInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') handleLogin();
-            });
-            
-            passwordInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') handleLogin();
-            });
-            
-            // Navegación con teclado para TV
-            document.addEventListener('keydown', function(e) {
-                if (mainContainer.style.display === 'block') {
-                    handleTVNavigation(e);
-                }
-            });
-            
-            // Verificar si ya hay una sesión activa
-            checkExistingSession();
-            
-            // Función para manejar el login
-            async function handleLogin() {
-                const username = usernameInput.value.trim();
-                const password = passwordInput.value.trim();
-                
-                if (!username || !password) {
-                    showMessage('Por favor, completa todos los campos', 'error');
-                    return;
-                }
-                
-                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Conectando...';
-                loginBtn.disabled = true;
-                
-                try {
-                    // Autenticar con el servidor Xtream Codes
-                    const authData = await authenticateUser(username, password);
-                    
-                    if (authData.user_info && authData.user_info.auth === 1) {
-                        currentUser = {
-                            username: username,
-                            password: password,
-                            authData: authData,
-                            isDemo: authData.user_info.status === "Active" ? false : true
-                        };
-                        
-                        // Guardar en localStorage
-                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                        
-                        if (currentUser.isDemo) {
-                            demoTimeLeft = 2 * 60 * 60; // 2 horas
-                            localStorage.setItem('demoTimeLeft', demoTimeLeft.toString());
-                            startDemoTimer();
-                        }
-                        
-                        // Cargar categorías y canales
-                        await loadCategories();
-                        await loadChannels();
-                        
-                        showMainApp();
-                        showMessage('Conexión exitosa!', 'success');
-                    } else {
-                        showMessage('Error de autenticación. Verifica tus credenciales.', 'error');
-                    }
-                } catch (error) {
-                    console.error('Error en login:', error);
-                    showMessage('Error al conectar con el servidor. Intenta nuevamente.', 'error');
-                } finally {
-                    loginBtn.innerHTML = 'Conectar';
-                    loginBtn.disabled = false;
-                }
+            if (!username || !password) {
+                showMessage('Por favor, completa todos los campos', 'error');
+                return;
             }
             
-            // Función para autenticar usuario con el servidor Xtream Codes
-            async function authenticateUser(username, password) {
-                const url = `${SERVER_URL}/player_api.php?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`;
-                
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error('Error en la autenticación');
-                }
-                
-                return await response.json();
-            }
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Conectando...';
             
-            // Función para cargar categorías desde el servidor
-            async function loadCategories() {
-                try {
-                    const url = `${SERVER_URL}/player_api.php?username=${encodeURIComponent(currentUser.username)}&password=${encodeURIComponent(currentUser.password)}&action=get_live_categories`;
-                    
-                    const response = await fetch(url);
-                    if (!response.ok) {
-                        throw new Error('Error al cargar categorías');
-                    }
-                    
-                    allCategories = await response.json();
-                    renderCategories();
-                } catch (error) {
-                    console.error('Error loading categories:', error);
-                    showMessage('Error al cargar categorías. Mostrando categorías por defecto.', 'error');
-                    
-                    // Categorías por defecto en caso de error
-                    allCategories = [
-                        { category_id: '1', category_name: 'Deportes' },
-                        { category_id: '2', category_name: 'Películas' },
-                        { category_id: '3', category_name: 'Noticias' },
-                        { category_id: '4', category_name: 'Internacional' }
-                    ];
-                    renderCategories();
-                }
-            }
-            
-            // Función para renderizar categorías
-            function renderCategories() {
-                categoriesContainer.innerHTML = '';
+            try {
+                // Usamos un proxy para evitar problemas de CORS
+                const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                const authUrl = `${proxyUrl}${encodeURIComponent(`${SERVER_URL}/player_api.php?username=${username}&password=${password}`)}`;
                 
-                // Agregar categoría "Todos"
-                const allCategory = document.createElement('div');
-                allCategory.className = 'category focused';
-                allCategory.setAttribute('data-category', 'all');
-                allCategory.textContent = 'Todos';
-                allCategory.addEventListener('click', function() {
-                    selectCategory('all');
-                });
-                categoriesContainer.appendChild(allCategory);
+                const response = await fetch(authUrl);
+                if (!response.ok) throw new Error('Error de autenticación');
                 
-                // Agregar las demás categorías
-                allCategories.forEach(category => {
-                    const categoryElement = document.createElement('div');
-                    categoryElement.className = 'category';
-                    categoryElement.setAttribute('data-category', category.category_id);
-                    categoryElement.textContent = category.category_name;
-                    
-                    categoryElement.addEventListener('click', function() {
-                        selectCategory(category.category_id);
-                    });
-                    
-                    categoriesContainer.appendChild(categoryElement);
-                });
-            }
-            
-            // Función para seleccionar una categoría
-            function selectCategory(categoryId) {
-                currentCategory = categoryId;
-                currentPage = 1;
+                const authData = await response.json();
                 
-                // Actualizar categoría seleccionada
-                document.querySelectorAll('.category').forEach(cat => {
-                    cat.classList.remove('focused');
-                    if (cat.getAttribute('data-category') === categoryId) {
-                        cat.classList.add('focused');
-                    }
-                });
-                
-                filterChannels();
-            }
-            
-            // Función para cargar canales desde el servidor
-            async function loadChannels() {
-                try {
-                    loadingElement.style.display = 'block';
-                    channelsContainer.innerHTML = '';
-                    
-                    const url = `${SERVER_URL}/player_api.php?username=${encodeURIComponent(currentUser.username)}&password=${encodeURIComponent(currentUser.password)}&action=get_live_streams`;
-                    
-                    const response = await fetch(url);
-                    if (!response.ok) {
-                        throw new Error('Error al cargar canales');
-                    }
-                    
-                    const data = await response.json();
-                    allChannels = data;
-                    filterChannels();
-                } catch (error) {
-                    console.error('Error loading channels:', error);
-                    showMessage('Error al cargar canales. Intenta nuevamente.', 'error');
-                } finally {
-                    loadingElement.style.display = 'none';
-                }
-            }
-            
-            // Función para filtrar canales por categoría y búsqueda
-            function filterChannels() {
-                let filtered = allChannels;
-                
-                // Filtrar por categoría
-                if (currentCategory !== 'all') {
-                    filtered = filtered.filter(channel => channel.category_id === currentCategory);
-                }
-                
-                // Filtrar por búsqueda
-                const searchText = searchInput.value.toLowerCase();
-                if (searchText) {
-                    filtered = filtered.filter(channel => 
-                        channel.name.toLowerCase().includes(searchText)
-                    );
-                }
-                
-                // Filtrar por favoritos si está activado
-                if (favoritesToggle.checked) {
-                    filtered = filtered.filter(channel => 
-                        favorites[channel.stream_id] === true
-                    );
-                }
-                
-                filteredChannels = filtered;
-                totalPages = Math.ceil(filteredChannels.length / itemsPerPage);
-                renderChannels();
-                renderPagination();
-            }
-            
-            // Función para renderizar canales
-            function renderChannels() {
-                channelsContainer.innerHTML = '';
-                
-                if (filteredChannels.length === 0) {
-                    channelsContainer.innerHTML = '<div class="message">No se encontraron canales</div>';
-                    return;
-                }
-                
-                const startIndex = (currentPage - 1) * itemsPerPage;
-                const endIndex = Math.min(startIndex + itemsPerPage, filteredChannels.length);
-                const pageChannels = filteredChannels.slice(startIndex, endIndex);
-                
-                pageChannels.forEach((channel, index) => {
-                    const channelElement = document.createElement('div');
-                    channelElement.className = 'channel';
-                    channelElement.setAttribute('data-id', channel.stream_id);
-                    channelElement.setAttribute('tabindex', '0');
-                    
-                    const isFavorite = favorites[channel.stream_id] === true;
-                    
-                    channelElement.innerHTML = `
-                        <div class="channel-img">
-                            ${channel.stream_icon ? 
-                                `<img src="${channel.stream_icon}" alt="${channel.name}" onerror="this.src='https://via.placeholder.com/200x120/1e3a5f/ffffff?text=Sin+Imagen'">` : 
-                                `<div style="display:flex;align-items:center;justify-content:center;height:100%;">${channel.name}</div>`
-                            }
-                        </div>
-                        <div class="channel-name">${channel.name}</div>
-                        <button class="favorite-btn ${isFavorite ? 'active' : ''}">
-                            <i class="fas fa-star"></i>
-                        </button>
-                    `;
-                    
-                    channelElement.addEventListener('click', function() {
-                        playChannel(channel);
-                    });
-                    
-                    // Permitir selección con Enter
-                    channelElement.addEventListener('keypress', function(e) {
-                        if (e.key === 'Enter') {
-                            playChannel(channel);
-                        }
-                    });
-                    
-                    const favoriteBtn = channelElement.querySelector('.favorite-btn');
-                    favoriteBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        toggleFavorite(channel.stream_id);
-                    });
-                    
-                    channelsContainer.appendChild(channelElement);
-                });
-            }
-            
-            // Función para renderizar paginación
-            function renderPagination() {
-                paginationContainer.innerHTML = '';
-                
-                if (totalPages <= 1) return;
-                
-                // Botón anterior
-                const prevBtn = document.createElement('button');
-                prevBtn.className = 'page-btn';
-                prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
-                prevBtn.disabled = currentPage === 1;
-                prevBtn.addEventListener('click', function() {
-                    if (currentPage > 1) {
-                        currentPage--;
-                        renderChannels();
-                        renderPagination();
-                    }
-                });
-                paginationContainer.appendChild(prevBtn);
-                
-                // Páginas
-                const startPage = Math.max(1, currentPage - 2);
-                const endPage = Math.min(totalPages, startPage + 4);
-                
-                for (let i = startPage; i <= endPage; i++) {
-                    const pageBtn = document.createElement('button');
-                    pageBtn.className = 'page-btn';
-                    if (i === currentPage) pageBtn.classList.add('active');
-                    pageBtn.textContent = i;
-                    pageBtn.addEventListener('click', function() {
-                        currentPage = i;
-                        renderChannels();
-                        renderPagination();
-                    });
-                    paginationContainer.appendChild(pageBtn);
-                }
-                
-                // Botón siguiente
-                const nextBtn = document.createElement('button');
-                nextBtn.className = 'page-btn';
-                nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
-                nextBtn.disabled = currentPage === totalPages;
-                nextBtn.addEventListener('click', function() {
-                    if (currentPage < totalPages) {
-                        currentPage++;
-                        renderChannels();
-                        renderPagination();
-                    }
-                });
-                paginationContainer.appendChild(nextBtn);
-            }
-            
-            // Función para reproducir canal
-            function playChannel(channel) {
-                currentPlayingChannel = channel;
-                playerMessage.style.display = 'none';
-                
-                // Ocultar lista de canales y mostrar reproductor
-                mainContainer.style.display = 'none';
-                playerContainer.style.display = 'block';
-                
-                // Actualizar botón de favoritos
-                const isFavorite = favorites[channel.stream_id] === true;
-                toggleFavoriteBtn.innerHTML = isFavorite ? 
-                    '<i class="fas fa-star"></i> Quitar de Favoritos' : 
-                    '<i class="far fa-star"></i> Añadir a Favoritos';
-                
-                // Generar URL de stream (formato Xtream Codes)
-                const streamUrl = `${SERVER_URL}/live/${currentUser.username}/${currentUser.password}/${channel.stream_id}.m3u8`;
-                
-                // Detener reproducción anterior
-                if (hls) {
-                    hls.destroy();
-                }
-                
-                // Configurar el reproductor de video
-                if (Hls.isSupported()) {
-                    hls = new Hls({
-                        debug: false,
-                        enableWorker: true,
-                        lowLatencyMode: true,
-                        backBufferLength: 90
-                    });
-                    hls.loadSource(streamUrl);
-                    hls.attachMedia(videoPlayer);
-                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                        videoPlayer.play().catch(e => {
-                            console.error('Error al reproducir:', e);
-                            showPlayerMessage('Error al reproducir el canal. Intenta otro.');
-                        });
-                    });
-                    
-                    hls.on(Hls.Events.ERROR, function(event, data) {
-                        console.error('HLS error:', data);
-                        if (data.fatal) {
-                            switch(data.type) {
-                                case Hls.ErrorTypes.NETWORK_ERROR:
-                                    showPlayerMessage('Error de red. Intenta nuevamente.');
-                                    break;
-                                case Hls.ErrorTypes.MEDIA_ERROR:
-                                    showPlayerMessage('Error de medio. El canal podría no estar disponible.');
-                                    break;
-                                default:
-                                    showPlayerMessage('Error desconocido. Intenta otro canal.');
-                                    break;
-                            }
-                        }
-                    });
-                } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
-                    // Para Safari
-                    videoPlayer.src = streamUrl;
-                    videoPlayer.addEventListener('loadedmetadata', function() {
-                        videoPlayer.play().catch(e => {
-                            console.error('Error al reproducir:', e);
-                            showPlayerMessage('Error al reproducir el canal. Intenta otro.');
-                        });
-                    });
-                } else {
-                    showPlayerMessage('Tu navegador no soporta la reproducción de video HLS');
-                }
-            }
-            
-            // Función para mostrar mensaje en el reproductor
-            function showPlayerMessage(message) {
-                playerMessage.textContent = message;
-                playerMessage.style.display = 'block';
-            }
-            
-            // Función para ocultar el reproductor
-            function hidePlayer() {
-                playerContainer.style.display = 'none';
-                mainContainer.style.display = 'block';
-                
-                if (videoPlayer) {
-                    videoPlayer.pause();
-                    videoPlayer.src = '';
-                }
-                
-                if (hls) {
-                    hls.destroy();
-                    hls = null;
-                }
-            }
-            
-            // Función para alternar favorito
-            function toggleFavorite(channelId) {
-                favorites[channelId] = !favorites[channelId];
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-                
-                // Actualizar interfaz
-                const favoriteBtn = document.querySelector(`.channel[data-id="${channelId}"] .favorite-btn`);
-                if (favoriteBtn) {
-                    favoriteBtn.classList.toggle('active', favorites[channelId]);
-                    favoriteBtn.innerHTML = favorites[channelId] ? 
-                        '<i class="fas fa-star"></i>' : 
-                        '<i class="far fa-star"></i>';
-                }
-                
-                // Si estamos en modo "solo favoritos", actualizar la lista
-                if (favoritesToggle.checked) {
-                    filterChannels();
-                }
-            }
-            
-            // Función para alternar favorito del canal actual
-            function toggleCurrentFavorite() {
-                if (currentPlayingChannel) {
-                    toggleFavorite(currentPlayingChannel.stream_id);
-                    
-                    // Actualizar botón
-                    const isFavorite = favorites[currentPlayingChannel.stream_id] === true;
-                    toggleFavoriteBtn.innerHTML = isFavorite ? 
-                        '<i class="fas fa-star"></i> Quitar de Favoritos' : 
-                        '<i class="far fa-star"></i> Añadir a Favoritos';
-                }
-            }
-            
-            // Función para manejar búsqueda
-            function handleSearch() {
-                currentPage = 1;
-                filterChannels();
-            }
-            
-            // Función para debounce
-            function debounce(func, wait) {
-                let timeout;
-                return function executedFunction(...args) {
-                    const later = () => {
-                        clearTimeout(timeout);
-                        func(...args);
+                if (authData.user_info && authData.user_info.auth === 1) {
+                    currentUser = {
+                        username: username,
+                        password: password,
+                        authData: authData,
+                        isDemo: authData.user_info.status !== "Active"
                     };
-                    clearTimeout(timeout);
-                    timeout = setTimeout(later, wait);
-                };
-            }
-            
-            // Función para limpiar búsqueda
-            function clearSearch() {
-                searchInput.value = '';
-                handleSearch();
-            }
-            
-            // Función para alternar vista de favoritos
-            function toggleFavoritesView() {
-                currentPage = 1;
-                filterChannels();
-            }
-            
-            // Función para manejar navegación con teclado (TV)
-            function handleTVNavigation(e) {
-                const focusedElement = document.activeElement;
-                
-                switch(e.key) {
-                    case 'ArrowUp':
-                        e.preventDefault();
-                        navigate('up', focusedElement);
-                        break;
-                    case 'ArrowDown':
-                        e.preventDefault();
-                        navigate('down', focusedElement);
-                        break;
-                    case 'ArrowLeft':
-                        e.preventDefault();
-                        navigate('left', focusedElement);
-                        break;
-                    case 'ArrowRight':
-                        e.preventDefault();
-                        navigate('right', focusedElement);
-                        break;
-                    case 'Enter':
-                        e.preventDefault();
-                        if (focusedElement.click) focusedElement.click();
-                        break;
-                    case 'Backspace':
-                    case 'Escape':
-                        e.preventDefault();
-                        if (playerContainer.style.display === 'block') {
-                            hidePlayer();
-                        }
-                        break;
-                }
-            }
-            
-            // Función para navegación por teclado
-            function navigate(direction, focusedElement) {
-                // Implementación básica de navegación
-                // En una aplicación real, esto sería más complejo
-                const focusableElements = Array.from(document.querySelectorAll('button, input, .channel, .category'));
-                const currentIndex = focusableElements.indexOf(focusedElement);
-                
-                if (currentIndex === -1) {
-                    focusableElements[0]?.focus();
-                    return;
-                }
-                
-                let nextIndex = currentIndex;
-                
-                switch(direction) {
-                    case 'up':
-                        nextIndex = Math.max(0, currentIndex - 1);
-                        break;
-                    case 'down':
-                        nextIndex = Math.min(focusableElements.length - 1, currentIndex + 1);
-                        break;
-                    case 'left':
-                        nextIndex = Math.max(0, currentIndex - 1);
-                        break;
-                    case 'right':
-                        nextIndex = Math.min(focusableElements.length - 1, currentIndex + 1);
-                        break;
-                }
-                
-                focusableElements[nextIndex]?.focus();
-            }
-            
-            // Función para mostrar aplicación principal
-            function showMainApp() {
-                loginContainer.style.display = 'none';
-                mainContainer.style.display = 'block';
-                userInfo.style.display = 'block';
-                userDisplay.textContent = `Usuario: ${currentUser.username}`;
-                
-                if (currentUser.isDemo) {
-                    timerDisplay.style.display = 'block';
-                    updateTimerDisplay();
+                    
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    
+                    if (currentUser.isDemo) {
+                        demoTimeLeft = 2 * 60 * 60;
+                        localStorage.setItem('demoTimeLeft', demoTimeLeft.toString());
+                        startDemoTimer();
+                    }
+                    
+                    await loadCategories();
+                    await loadChannels();
+                    
+                    showMainApp();
                 } else {
-                    timerDisplay.style.display = 'none';
+                    throw new Error('Credenciales incorrectas');
                 }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Error de conexión. Verifica tus credenciales.', 'error');
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Conectar';
             }
-            
-            // Función para iniciar temporizador de demo
-            function startDemoTimer() {
-                if (demoInterval) clearInterval(demoInterval);
+        }
+        
+        // Función para cargar categorías
+        async function loadCategories() {
+            try {
+                const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                const categoriesUrl = `${proxyUrl}${encodeURIComponent(`${SERVER_URL}/player_api.php?username=${currentUser.username}&password=${currentUser.password}&action=get_live_categories`)}`;
                 
-                demoInterval = setInterval(function() {
-                    demoTimeLeft--;
-                    localStorage.setItem('demoTimeLeft', demoTimeLeft.toString());
-                    updateTimerDisplay();
-                    
-                    if (demoTimeLeft <= 0) {
-                        clearInterval(demoInterval);
-                        alert('Tu demo ha expirado. Por favor, contacta a FullVeo para adquirir el servicio completo.');
-                        handleLogout();
-                    }
-                }, 1000);
-            }
-            
-            // Función para actualizar visualización del temporizador
-            function updateTimerDisplay() {
-                const hours = Math.floor(demoTimeLeft / 3600);
-                const minutes = Math.floor((demoTimeLeft % 3600) / 60);
-                const seconds = demoTimeLeft % 60;
+                const response = await fetch(categoriesUrl);
+                if (!response.ok) throw new Error('Error al cargar categorías');
                 
-                timerDisplay.textContent = `Tiempo restante: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                allCategories = await response.json();
+                renderCategories();
+            } catch (error) {
+                console.error('Error cargando categorías:', error);
+                // Categorías por defecto en caso de error
+                allCategories = [
+                    { category_id: '1', category_name: 'Deportes' },
+                    { category_id: '2', category_name: 'Películas' },
+                    { category_id: '3', category_name: 'Noticias' },
+                    { category_id: '4', category_name: 'Internacional' }
+                ];
+                renderCategories();
             }
+        }
+        
+        // Función para renderizar categorías
+        function renderCategories() {
+            categoriesContainer.innerHTML = '';
             
-            // Función para manejar cierre de sesión
-            function handleLogout() {
-                if (demoInterval) {
-                    clearInterval(demoInterval);
-                    demoInterval = null;
+            // Categoría "Todos"
+            const allCategory = document.createElement('div');
+            allCategory.className = 'category active';
+            allCategory.dataset.category = 'all';
+            allCategory.textContent = 'Todos';
+            allCategory.addEventListener('click', () => selectCategory('all'));
+            categoriesContainer.appendChild(allCategory);
+            
+            // Otras categorías
+            allCategories.forEach(category => {
+                const categoryElement = document.createElement('div');
+                categoryElement.className = 'category';
+                categoryElement.dataset.category = category.category_id;
+                categoryElement.textContent = category.category_name;
+                categoryElement.addEventListener('click', () => selectCategory(category.category_id));
+                categoriesContainer.appendChild(categoryElement);
+            });
+        }
+        
+        // Función para seleccionar categoría
+        function selectCategory(categoryId) {
+            currentCategory = categoryId;
+            
+            // Actualizar UI
+            document.querySelectorAll('.category').forEach(cat => {
+                cat.classList.remove('active');
+                if (cat.dataset.category === categoryId) {
+                    cat.classList.add('active');
                 }
+            });
+            
+            filterChannels();
+        }
+        
+        // Función para cargar canales
+        async function loadChannels() {
+            loadingElement.style.display = 'block';
+            channelsContainer.innerHTML = '';
+            
+            try {
+                const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                const streamsUrl = `${proxyUrl}${encodeURIComponent(`${SERVER_URL}/player_api.php?username=${currentUser.username}&password=${currentUser.password}&action=get_live_streams`)}`;
                 
-                localStorage.removeItem('currentUser');
-                localStorage.removeItem('demoTimeLeft');
-                localStorage.removeItem('favorites');
+                const response = await fetch(streamsUrl);
+                if (!response.ok) throw new Error('Error al cargar canales');
                 
-                if (videoPlayer) {
-                    videoPlayer.pause();
-                    videoPlayer.src = '';
-                }
-                
-                if (hls) {
-                    hls.destroy();
-                    hls = null;
-                }
-                
-                playerContainer.style.display = 'none';
-                showLogin();
+                allChannels = await response.json();
+                filterChannels();
+            } catch (error) {
+                console.error('Error cargando canales:', error);
+                showMessage('Error al cargar canales. Intenta nuevamente.', 'error');
+            } finally {
+                loadingElement.style.display = 'none';
+            }
+        }
+        
+        // Función para filtrar canales
+        function filterChannels() {
+            let filtered = allChannels;
+            
+            // Filtrar por categoría
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(channel => channel.category_id === currentCategory);
             }
             
-            // Función para mostrar login
-            function showLogin() {
-                loginContainer.style.display = 'block';
-                mainContainer.style.display = 'none';
-                userInfo.style.display = 'none';
-                usernameInput.value = '';
-                passwordInput.value = '';
+            // Filtrar por búsqueda
+            const searchText = searchInput.value.toLowerCase();
+            if (searchText) {
+                filtered = filtered.filter(channel => 
+                    channel.name.toLowerCase().includes(searchText)
+                );
             }
             
-            // Función para mostrar mensajes
-            function showMessage(message, type) {
-                loginMessage.textContent = message;
-                loginMessage.className = `message ${type}`;
-                loginMessage.style.display = 'block';
-                
-                setTimeout(function() {
-                    loginMessage.style.display = 'none';
-                }, 5000);
+            renderChannels(filtered);
+        }
+        
+        // Función para renderizar canales
+        function renderChannels(channels) {
+            channelsContainer.innerHTML = '';
+            
+            if (channels.length === 0) {
+                channelsContainer.innerHTML = '<div class="message">No se encontraron canales</div>';
+                return;
             }
             
-            // Función para verificar si hay una sesión activa
-            function checkExistingSession() {
-                const savedUser = localStorage.getItem('currentUser');
-                const savedTime = localStorage.getItem('demoTimeLeft');
+            channels.forEach(channel => {
+                const channelElement = document.createElement('div');
+                channelElement.className = 'channel';
                 
-                if (savedUser && savedTime) {
-                    currentUser = JSON.parse(savedUser);
-                    demoTimeLeft = parseInt(savedTime);
-                    
-                    if (currentUser.isDemo && demoTimeLeft <= 0) {
-                        localStorage.removeItem('currentUser');
-                        localStorage.removeItem('demoTimeLeft');
-                    } else {
-                        showMainApp();
-                        if (currentUser.isDemo) {
-                            startDemoTimer();
+                channelElement.innerHTML = `
+                    <div class="channel-img">
+                        ${channel.stream_icon ? 
+                            `<img src="${channel.stream_icon}" alt="${channel.name}" onerror="this.src='https://via.placeholder.com/150x100/1e3a5f/ffffff?text=Sin+Imagen'">` : 
+                            `<div style="display:flex;align-items:center;justify-content:center;height:100%;">${channel.name}</div>`
                         }
-                        // Cargar categorías y canales
-                        loadCategories();
-                        loadChannels();
+                    </div>
+                    <div class="channel-name">${channel.name}</div>
+                `;
+                
+                channelElement.addEventListener('click', () => playChannel(channel));
+                channelsContainer.appendChild(channelElement);
+            });
+        }
+        
+        // Función para reproducir canal
+        function playChannel(channel) {
+            mainContainer.style.display = 'none';
+            playerContainer.style.display = 'block';
+            
+            // Generar URL del stream
+            const streamUrl = `${SERVER_URL}/live/${currentUser.username}/${currentUser.password}/${channel.stream_id}.m3u8`;
+            
+            // Detener reproducción anterior
+            if (hls) {
+                hls.destroy();
+            }
+            
+            // Configurar HLS.js para reproducción
+            if (Hls.isSupported()) {
+                hls = new Hls();
+                hls.loadSource(streamUrl);
+                hls.attachMedia(videoPlayer);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    videoPlayer.play();
+                });
+            } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                // Para Safari
+                videoPlayer.src = streamUrl;
+                videoPlayer.addEventListener('loadedmetadata', () => {
+                    videoPlayer.play();
+                });
+            } else {
+                alert('Tu navegador no soporta la reproducción de video HLS');
+            }
+        }
+        
+        // Función para ocultar reproductor
+        function hidePlayer() {
+            playerContainer.style.display = 'none';
+            mainContainer.style.display = 'block';
+            
+            if (videoPlayer) {
+                videoPlayer.pause();
+                videoPlayer.src = '';
+            }
+            
+            if (hls) {
+                hls.destroy();
+                hls = null;
+            }
+        }
+        
+        // Función para manejar búsqueda
+        function handleSearch() {
+            filterChannels();
+        }
+        
+        // Función para limpiar búsqueda
+        function clearSearch() {
+            searchInput.value = '';
+            filterChannels();
+        }
+        
+        // Función para iniciar temporizador de demo
+        function startDemoTimer() {
+            if (demoInterval) clearInterval(demoInterval);
+            
+            timerDisplay.style.display = 'block';
+            updateTimerDisplay();
+            
+            demoInterval = setInterval(() => {
+                demoTimeLeft--;
+                localStorage.setItem('demoTimeLeft', demoTimeLeft.toString());
+                updateTimerDisplay();
+                
+                if (demoTimeLeft <= 0) {
+                    clearInterval(demoInterval);
+                    alert('Tu demo ha expirado. Por favor, contacta a FullVeo para adquirir el servicio completo.');
+                    handleLogout();
+                }
+            }, 1000);
+        }
+        
+        // Función para actualizar visualización del temporizador
+        function updateTimerDisplay() {
+            const hours = Math.floor(demoTimeLeft / 3600);
+            const minutes = Math.floor((demoTimeLeft % 3600) / 60);
+            const seconds = demoTimeLeft % 60;
+            
+            timerDisplay.textContent = `Tiempo restante: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Función para mostrar aplicación principal
+        function showMainApp() {
+            loginContainer.style.display = 'none';
+            mainContainer.style.display = 'block';
+            userDisplay.textContent = `Usuario: ${currentUser.username}`;
+            
+            if (currentUser.isDemo) {
+                timerDisplay.style.display = 'block';
+            } else {
+                timerDisplay.style.display = 'none';
+            }
+        }
+        
+        // Función para manejar cierre de sesión
+        function handleLogout() {
+            if (demoInterval) {
+                clearInterval(demoInterval);
+                demoInterval = null;
+            }
+            
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('demoTimeLeft');
+            
+            if (hls) {
+                hls.destroy();
+                hls = null;
+            }
+            
+            if (videoPlayer) {
+                videoPlayer.pause();
+                videoPlayer.src = '';
+            }
+            
+            playerContainer.style.display = 'none';
+            mainContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+            
+            usernameInput.value = '';
+            passwordInput.value = '';
+        }
+        
+        // Función para mostrar mensajes
+        function showMessage(message, type) {
+            loginMessage.textContent = message;
+            loginMessage.className = `message ${type}`;
+            loginMessage.style.display = 'block';
+            
+            setTimeout(() => {
+                loginMessage.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Verificar si hay una sesión activa al cargar la página
+        function checkExistingSession() {
+            const savedUser = localStorage.getItem('currentUser');
+            const savedTime = localStorage.getItem('demoTimeLeft');
+            
+            if (savedUser && savedTime) {
+                currentUser = JSON.parse(savedUser);
+                demoTimeLeft = parseInt(savedTime);
+                
+                if (currentUser.isDemo && demoTimeLeft <= 0) {
+                    localStorage.removeItem('currentUser');
+                    localStorage.removeItem('demoTimeLeft');
+                } else {
+                    showMainApp();
+                    if (currentUser.isDemo) {
+                        startDemoTimer();
                     }
+                    loadCategories();
+                    loadChannels();
                 }
             }
-        });
+        }
+        
+        // Inicializar la aplicación
+        checkExistingSession();
     </script>
 </body>
 </html>
